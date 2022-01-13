@@ -84,7 +84,14 @@ export const Game = () => {
   }, [currentGuess]);
 
   useEffect(() => {
-    const onKeyDown = ({ key }: KeyboardEvent) => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      const { key, metaKey, shiftKey, ctrlKey, altKey, isComposing } = event;
+
+      // Ignore key combinations and inputs.
+      if (metaKey || shiftKey || ctrlKey || altKey || isComposing) {
+        return;
+      }
+
       if (key.length === 1 && key.match(/[a-z]/i)) {
         addCharacter(key);
       } else if (key === "Enter") {

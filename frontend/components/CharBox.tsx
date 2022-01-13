@@ -16,6 +16,7 @@ export const CharBox = ({
         flex
         justify-center
         items-center
+        uppercase
       `}
     >
       <span className="font-medium text-2xl">{character}</span>
