@@ -4,16 +4,13 @@ const LAYOUT = [
   ["z", "x", "c", "v", "b", "n", "m", "submit"],
 ];
 
-const Key = ({ keyValue }: { keyValue: string }) => {
-  const onClick = () => {
-    if (keyValue === "submit") {
-      //
-    } else if (keyValue == "backspace") {
-      //
-    }
-    //
-  };
-
+const Key = ({
+  keyValue,
+  onClick,
+}: {
+  keyValue: string;
+  onClick: () => void;
+}) => {
   return (
     <button
       className="border border-stone-800 w-[42px] h-[42px]"
@@ -24,14 +21,34 @@ const Key = ({ keyValue }: { keyValue: string }) => {
   );
 };
 
-export const Keyboard = () => {
+export const Keyboard = ({
+  onKey,
+  onBackspace,
+  onSubmit,
+}: {
+  onKey: (key: string) => void;
+  onBackspace: () => void;
+  onSubmit: () => void;
+}) => {
   return (
     <div>
       <div className="fixed bottom-1 w-[min(100vw,32rem)] flex flex-col gap-1">
         {LAYOUT.map((keys, i) => (
           <div className="flex justify-center gap-1" key={i}>
             {keys.map((key) => (
-              <Key keyValue={key} key={key} />
+              <Key
+                keyValue={key}
+                key={key}
+                onClick={() => {
+                  if (key === "backspace") {
+                    onBackspace();
+                  } else if (key === "submit") {
+                    onSubmit();
+                  } else {
+                    onKey(key);
+                  }
+                }}
+              />
             ))}
           </div>
         ))}
