@@ -18,9 +18,9 @@ const WordRow = ({ word }: { word: Word }) => (
             : type === "wrong"
             ? "bg-stone-200"
             : type === "right"
-            ? "bg-emerald-300"
+            ? "bg-green-400"
             : type === "almost"
-            ? "bg-amber-200"
+            ? "bg-yellow-300"
             : ""
         }
       />
@@ -51,7 +51,7 @@ export const Game = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 mt-1">
         {guesses.map((guess) => (
           <WordRow word={guess} />
         ))}
