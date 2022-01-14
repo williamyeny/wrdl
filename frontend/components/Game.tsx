@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { CharBox } from "./CharBox";
+import { Instructions } from "./Instructions";
 import { Keyboard } from "./Keyboard";
 
 const testWords = [
@@ -113,6 +114,7 @@ export const Game = () => {
         ))}
         <WordRow word={currentGuess} />
       </div>
+      {guesses.length === 0 && <Instructions />}
       <Keyboard
         onKey={addCharacter}
         onSubmit={onSubmit}

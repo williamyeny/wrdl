@@ -10,7 +10,7 @@ export const CharBox = ({
       className={`
         ${color} 
         border 
-        border-stone-800 
+        border-stone-700 
         w-[64px] 
         h-[64px] 
         flex
@@ -19,7 +19,7 @@ export const CharBox = ({
         uppercase
       `}
     >
-      <span className="font-medium text-2xl">{character}</span>
+      <span className="text-xl">{character}</span>
     </div>
   );
 };

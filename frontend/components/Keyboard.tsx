@@ -13,7 +13,7 @@ const Key = ({
 }) => {
   return (
     <button
-      className="border border-stone-800 w-[42px] h-[42px] uppercase"
+      className="border border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black"
       onClick={onClick}
     >
       {keyValue === "backspace" ? "⌫" : keyValue === "submit" ? "→" : keyValue}
