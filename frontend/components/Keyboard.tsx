@@ -1,7 +1,7 @@
 const LAYOUT = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l", "backspace"],
-  ["z", "x", "c", "v", "b", "n", "m", "submit"],
+  ["", "z", "x", "c", "v", "b", "n", "m", "submit", ""],
 ];
 
 const Key = ({
@@ -15,7 +15,9 @@ const Key = ({
 }) => {
   return (
     <button
-      className={`border border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black ${
+      className={`${
+        keyValue !== "" && "border bg-white"
+      } border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black ${
         guessed === "right"
           ? "bg-green-400"
           : guessed === "almost"
@@ -44,13 +46,13 @@ export const Keyboard = ({
 }) => {
   return (
     <div>
-      <div className="fixed bottom-1 w-[min(100vw,32rem)] flex flex-col gap-1">
+      <div className="fixed bottom-0 w-[min(100vw,32rem)] flex flex-col gap-1 p-1">
         {LAYOUT.map((keys, i) => (
           <div className="flex justify-center gap-1" key={i}>
-            {keys.map((key) => (
+            {keys.map((key, j) => (
               <Key
                 keyValue={key}
-                key={key}
+                key={j}
                 onClick={() => {
                   if (key === "backspace") {
                     onBackspace();
@@ -66,7 +68,6 @@ export const Keyboard = ({
           </div>
         ))}
       </div>
-      <div className="absolute bottom h-[164px]" />
     </div>
   );
 };
