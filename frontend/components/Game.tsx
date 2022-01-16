@@ -4,16 +4,19 @@ import { Instructions } from "./Instructions";
 import { Keyboard } from "./Keyboard";
 import { evaluate, WordRow } from "./WordRow";
 
+const getRandomCommonWord = () =>
+  commonWordsArray[Math.floor(Math.random() * commonWordsArray.length)];
+
 export const Game = () => {
-  const [solutionWord, setSolutionWord] = useState(
-    // Get a random solution word from common words.
-    commonWordsArray[Math.floor(Math.random() * commonWordsArray.length)]
-  );
+  const [solutionWord, setSolutionWord] = useState(getRandomCommonWord());
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [guessedChars, setGuessedChars] = useState<
     { guessed: "right" | "almost" | "wrong"; character: string }[]
   >([]);
+  const [gameState, setGameState] = useState<"playing" | "win" | "lose">(
+    "playing"
+  );
 
   const addCharacter = useCallback(
     (character: string) => {
@@ -28,9 +31,18 @@ export const Game = () => {
     if (currentGuess.length === 5) {
       if (allWordsSet.has(currentGuess)) {
         let newGuessedChars = [...guessedChars];
+        const evaluatedColors = evaluate(currentGuess, solutionWord);
+
+        // Check win/loss status.
+        if (evaluatedColors.every((color) => color === "green")) {
+          setGameState("win");
+          alert("You win!");
+        } else if (guesses.length === 5) {
+          setGameState("lose");
+          alert("You lose!");
+        }
 
         // Figure out which keyboard colors to update.
-        const evaluatedColors = evaluate(currentGuess, solutionWord);
         for (let i = 0; i < currentGuess.length; i++) {
           // Figure out if a character of current guess needs to change color.
           const shouldTurnKeyGreen = evaluatedColors[i] === "green";
@@ -108,7 +120,27 @@ export const Game = () => {
         {guesses.map((guess, i) => (
           <WordRow guessWord={guess} key={i} solutionWord={solutionWord} />
         ))}
-        <WordRow guessWord={currentGuess} solutionWord={solutionWord} isInput />
+        {gameState === "playing" ? (
+          <WordRow
+            guessWord={currentGuess}
+            solutionWord={solutionWord}
+            isInput
+          />
+        ) : (
+          <div>
+            <button
+              className="bg-stone-900 text-white px-3 py-1 rounded"
+              onClick={() => {
+                setSolutionWord(getRandomCommonWord());
+                setGuesses([]);
+                setGuessedChars([]);
+                setGameState("playing");
+              }}
+            >
+              {gameState === "win" ? "Go" : "Try"} again!
+            </button>
+          </div>
+        )}
       </div>
       {guesses.length === 0 && <Instructions />}
       <Keyboard
