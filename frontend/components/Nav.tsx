@@ -1,7 +1,7 @@
 export const Nav = () => {
   return (
     <div className="flex justify-between items-center">
-      <h1 className="text-lg font-medium p-2 text-stone-700">Word Racer</h1>
+      <h1 className="text-lg font-medium p-2 text-stone-700">Word Guesser</h1>
       <button className="text-xl p-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"

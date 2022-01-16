@@ -127,9 +127,12 @@ export const Game = () => {
             isInput
           />
         ) : (
-          <div>
+          <div className="flex items-center mt-2 justify-between">
+            <div className="font-medium">
+              {gameState === "win" ? "You win! 🎉" : "You lose... 😞"}
+            </div>
             <button
-              className="bg-stone-900 text-white px-3 py-1 rounded"
+              className="bg-stone-900 text-white px-4 py-1 rounded font-medium"
               onClick={() => {
                 setSolutionWord(getRandomCommonWord());
                 setGuesses([]);
@@ -137,7 +140,7 @@ export const Game = () => {
                 setGameState("playing");
               }}
             >
-              {gameState === "win" ? "Go" : "Try"} again!
+              {gameState === "win" ? "Go again!" : "Try again?"}
             </button>
           </div>
         )}

@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <div>
       <Head>
         <title>Create Next App</title>
-        <meta name="description" content="Word Racer game" />
+        <meta name="description" content="Word Guesser game" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
