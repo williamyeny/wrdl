@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { FloatingPage } from "./FloatingPage";
+import { InfoPage } from "./InfoPage";
 
 export const Nav = () => {
   const [isInfoPageOpen, setIsInfoPageOpen] = useState(false);
   return (
     <div className="flex justify-between items-center">
-      <h1 className="text-lg font-medium p-2 text-stone-700">Word Guesser</h1>
+      <h1 className="p-2">Word Guesser</h1>
       <button
-        className="text-xl p-2 text-stone-700"
+        className="p-2 text-stone-700"
         aria-label="Info"
         onClick={() => setIsInfoPageOpen(true)}
       >
@@ -22,19 +22,7 @@ export const Nav = () => {
           <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z" />
         </svg>
       </button>
-      {isInfoPageOpen && (
-        <FloatingPage onClose={() => setIsInfoPageOpen(false)}>
-          <p>
-            Developed by <a href="https://williamyeny.github.io/">Will Ye</a>.
-          </p>
-          <p>
-            Game mechanics from{" "}
-            <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>. All
-            credits to its creator,{" "}
-            <a href="https://twitter.com/powerlanguish">Josh Wardle</a>.
-          </p>
-        </FloatingPage>
-      )}
+      {isInfoPageOpen && <InfoPage onClose={() => setIsInfoPageOpen(false)} />}
     </div>
   );
 };

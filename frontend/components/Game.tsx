@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { allWordsSet, commonWordsArray } from "../dictionary";
-import { Instructions } from "./Instructions";
+import { Instructions, Credits } from "./TextContent";
 import { Keyboard } from "./Keyboard";
 import { evaluate, WordRow } from "./WordRow";
 
@@ -36,10 +36,8 @@ export const Game = () => {
         // Check win/loss status.
         if (evaluatedColors.every((color) => color === "green")) {
           setGameState("win");
-          alert("You win!");
         } else if (guesses.length === 5) {
           setGameState("lose");
-          alert("You lose!");
         }
 
         // Figure out which keyboard colors to update.
@@ -127,25 +125,42 @@ export const Game = () => {
             isInput
           />
         ) : (
-          <div className="flex items-center mt-2 justify-between">
+          <div className="flex mt-2 justify-between">
             <div className="font-medium">
-              {gameState === "win" ? "You win! 🎉" : "You lose... 😞"}
+              <p>{gameState === "win" ? "You won! 🎉" : "You lost... 😞"}</p>
+              {gameState === "lose" && (
+                <p>
+                  The word was{" "}
+                  <span className="uppercase font-bold text-stone-700">
+                    {solutionWord}
+                  </span>
+                  .
+                </p>
+              )}
             </div>
-            <button
-              className="bg-stone-900 text-white px-4 py-1 rounded font-medium"
-              onClick={() => {
-                setSolutionWord(getRandomCommonWord());
-                setGuesses([]);
-                setGuessedChars([]);
-                setGameState("playing");
-              }}
-            >
-              {gameState === "win" ? "Go again!" : "Try again?"}
-            </button>
+            <div>
+              <button
+                className="bg-stone-900 text-white px-4 py-1 rounded font-medium inline-block"
+                onClick={() => {
+                  setSolutionWord(getRandomCommonWord());
+                  setGuesses([]);
+                  setGuessedChars([]);
+                  setGameState("playing");
+                }}
+              >
+                {gameState === "win" ? "Go again!" : "Try again?"}
+              </button>
+            </div>
           </div>
         )}
       </div>
-      {guesses.length === 0 && <Instructions />}
+      {guesses.length === 0 && (
+        <div className="flex flex-col gap-2 w-[calc(320px+1rem)] mt-8 mx-auto">
+          <Instructions />
+          <hr />
+          <Credits />
+        </div>
+      )}
       <Keyboard
         onKey={addCharacter}
         onSubmit={onSubmit}

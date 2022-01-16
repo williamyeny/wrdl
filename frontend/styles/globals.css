@@ -1,4 +1,15 @@
 @tailwind base;
+@layer base {
+  h1 {
+    @apply text-lg font-medium text-stone-700;
+  }
+  a {
+    @apply underline;
+  }
+  p {
+    @apply text-sm leading-6 text-stone-500;
+  }
+}
 @tailwind components;
 @tailwind utilities;
 
@@ -6,8 +17,4 @@
 
 * {
   font-family: "Inter", sans-serif;
-}
-
-a {
-  text-decoration: underline;
 }
