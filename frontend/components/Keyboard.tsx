@@ -7,13 +7,23 @@ const LAYOUT = [
 const Key = ({
   keyValue,
   onClick,
+  guessed,
 }: {
   keyValue: string;
   onClick: () => void;
+  guessed?: "right" | "wrong" | "almost";
 }) => {
   return (
     <button
-      className="border border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black"
+      className={`border border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black ${
+        guessed === "right"
+          ? "bg-green-400"
+          : guessed === "almost"
+          ? "bg-yellow-300"
+          : guessed === "wrong"
+          ? "bg-stone-200"
+          : ""
+      }`}
       onClick={onClick}
     >
       {keyValue === "backspace" ? "⌫" : keyValue === "submit" ? "→" : keyValue}
@@ -25,10 +35,12 @@ export const Keyboard = ({
   onKey,
   onBackspace,
   onSubmit,
+  guessedChars,
 }: {
   onKey: (key: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
+  guessedChars: { guessed: "right" | "wrong" | "almost"; character: string }[];
 }) => {
   return (
     <div>
@@ -48,12 +60,13 @@ export const Keyboard = ({
                     onKey(key);
                   }
                 }}
+                guessed={guessedChars.find((c) => c.character === key)?.guessed}
               />
             ))}
           </div>
         ))}
       </div>
-      <div className="absolute bottom-1 h-[134px]" />
+      <div className="absolute bottom h-[164px]" />
     </div>
   );
 };

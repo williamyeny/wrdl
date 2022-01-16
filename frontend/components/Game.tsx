@@ -1,11 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
+import { allWordsSet, commonWordsArray } from "../dictionary";
 import { Instructions } from "./Instructions";
 import { Keyboard } from "./Keyboard";
-import { WordRow } from "./WordRow";
+import { evaluate, WordRow } from "./WordRow";
 
 export const Game = () => {
+  const [solutionWord, setSolutionWord] = useState(
+    // Get a random solution word from common words.
+    commonWordsArray[Math.floor(Math.random() * commonWordsArray.length)]
+  );
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [guessedChars, setGuessedChars] = useState<
+    { guessed: "right" | "almost" | "wrong"; character: string }[]
+  >([]);
 
   const addCharacter = useCallback(
     (character: string) => {
@@ -18,10 +26,53 @@ export const Game = () => {
 
   const onSubmit = useCallback(() => {
     if (currentGuess.length === 5) {
-      setGuesses([...guesses, currentGuess]);
-      setCurrentGuess("");
+      if (allWordsSet.has(currentGuess)) {
+        let newGuessedChars = [...guessedChars];
+
+        // Figure out which keyboard colors to update.
+        const evaluatedColors = evaluate(currentGuess, solutionWord);
+        for (let i = 0; i < currentGuess.length; i++) {
+          // Figure out if a character of current guess needs to change color.
+          const shouldTurnKeyGreen = evaluatedColors[i] === "green";
+          const shouldTurnKeyYellow =
+            evaluatedColors[i] === "yellow" &&
+            // Not previously guessed to be green.
+            !guessedChars.some(
+              (c) => c.character === currentGuess[i] && c.guessed === "right"
+            );
+          const shouldTurnKeyGrey =
+            evaluatedColors[i] === "grey" &&
+            // Not previously guessed.
+            !guessedChars.some((c) => c.character === currentGuess[i]);
+
+          if (shouldTurnKeyGreen || shouldTurnKeyYellow) {
+            // Remove existing guessed char, if exists.
+            newGuessedChars = newGuessedChars.filter(
+              (c) => c.character !== currentGuess[i]
+            );
+
+            newGuessedChars.push({
+              character: currentGuess[i],
+              guessed: shouldTurnKeyGreen ? "right" : "almost",
+            });
+          } else if (shouldTurnKeyGrey) {
+            newGuessedChars.push({
+              character: currentGuess[i],
+              guessed: "wrong",
+            });
+          }
+        }
+        // Update key colors.
+        setGuessedChars(newGuessedChars);
+
+        // Record and reset current guess.
+        setGuesses([...guesses, currentGuess]);
+        setCurrentGuess("");
+      } else {
+        alert("Not a word!");
+      }
     }
-  }, [currentGuess, guesses]);
+  }, [currentGuess, guessedChars, guesses, solutionWord]);
 
   const onBackspace = useCallback(() => {
     if (currentGuess.length > 0) {
@@ -55,15 +106,16 @@ export const Game = () => {
     <div>
       <div className="flex flex-col gap-1 mt-1 w-[calc(320px+1rem)] mx-auto">
         {guesses.map((guess, i) => (
-          <WordRow guessWord={guess} key={i} solutionWord={"eaeee"} />
+          <WordRow guessWord={guess} key={i} solutionWord={solutionWord} />
         ))}
-        <WordRow guessWord={currentGuess} solutionWord={"eaeee"} isInput />
+        <WordRow guessWord={currentGuess} solutionWord={solutionWord} isInput />
       </div>
       {guesses.length === 0 && <Instructions />}
       <Keyboard
         onKey={addCharacter}
         onSubmit={onSubmit}
         onBackspace={onBackspace}
+        guessedChars={guessedChars}
       />
     </div>
   );

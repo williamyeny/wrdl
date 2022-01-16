@@ -1,6 +1,6 @@
 // Don't know the original source, but took it from here: https://raw.githubusercontent.com/swag/swag.github.io/master/evil-wordle/js/wordlists.js
 
-export const commonWordsDict = new Set([
+export const commonWordsArray = [
   "aback",
   "abase",
   "abate",
@@ -2500,9 +2500,9 @@ export const commonWordsDict = new Set([
   "youth",
   "yummy",
   "zones",
-]);
+];
 
-export const allWordsDict = new Set([
+export const allWordsSet = new Set([
   "aahed",
   "aalii",
   "aargh",
