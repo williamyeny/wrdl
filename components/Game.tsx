@@ -168,6 +168,7 @@ export const Game = () => {
                   setSolutionWord(getRandomCommonWord());
                   setGuesses([]);
                   setGuessedLetters([]);
+                  setCurrentGuess("");
                   setGameState("playing");
                 }}
               >
