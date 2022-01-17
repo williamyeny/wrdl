@@ -4,6 +4,12 @@ import { Instructions, Credits } from "./TextContent";
 import { Keyboard } from "./Keyboard";
 import { evaluate, WordRow } from "./WordRow";
 
+export type Accuracy =
+  | "right" // Right letter, right position.
+  | "wrong" // Wrong letter.
+  | "almost" // Right letter, wrong position.
+  | "unknown"; // Not evaluated.
+
 const getRandomCommonWord = () =>
   commonWordsArray[Math.floor(Math.random() * commonWordsArray.length)];
 
@@ -12,7 +18,7 @@ export const Game = () => {
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<
-    { guessed: "right" | "almost" | "wrong"; value: string }[]
+    { accuracy: Accuracy; value: string }[]
   >([]);
   const [gameState, setGameState] = useState<"playing" | "win" | "lose">(
     "playing"
@@ -31,32 +37,31 @@ export const Game = () => {
     if (currentGuess.length === 5) {
       if (allWordsSet.has(currentGuess)) {
         let newGuessedLetters = [...guessedLetters];
-        const evaluatedColors = evaluate(currentGuess, solutionWord);
+        const accuracies = evaluate(currentGuess, solutionWord);
 
         // Check win/loss status.
-        if (evaluatedColors.every((color) => color === "green")) {
+        if (accuracies.every((accuracy) => accuracy === "right")) {
           setGameState("win");
         } else if (guesses.length === 5) {
           setGameState("lose");
         }
 
-        // Figure out which keyboard colors to update.
+        // Figure out which keyboard keys need to update their colors.
         for (let i = 0; i < currentGuess.length; i++) {
-          // Figure out if a letter of current guess needs to change color.
-          const shouldTurnKeyGreen = evaluatedColors[i] === "green";
-          const shouldTurnKeyYellow =
-            evaluatedColors[i] === "yellow" &&
-            // Not previously guessed to be green.
+          const isKeyRight = accuracies[i] === "right";
+          const isKeyAlmost =
+            accuracies[i] === "almost" &&
+            // Not previously guessed to be right.
             !guessedLetters.some(
               (letter) =>
-                letter.value === currentGuess[i] && letter.guessed === "right"
+                letter.value === currentGuess[i] && letter.accuracy === "right"
             );
-          const shouldTurnKeyGrey =
-            evaluatedColors[i] === "grey" &&
+          const isKeyWrong =
+            accuracies[i] === "wrong" &&
             // Not previously guessed.
             !guessedLetters.some((letter) => letter.value === currentGuess[i]);
 
-          if (shouldTurnKeyGreen || shouldTurnKeyYellow) {
+          if (isKeyRight || isKeyAlmost) {
             // Remove existing guessed letter, if exists.
             newGuessedLetters = newGuessedLetters.filter(
               (letter) => letter.value !== currentGuess[i]
@@ -64,12 +69,12 @@ export const Game = () => {
 
             newGuessedLetters.push({
               value: currentGuess[i],
-              guessed: shouldTurnKeyGreen ? "right" : "almost",
+              accuracy: isKeyRight ? "right" : "almost",
             });
-          } else if (shouldTurnKeyGrey) {
+          } else if (isKeyWrong) {
             newGuessedLetters.push({
               value: currentGuess[i],
-              guessed: "wrong",
+              accuracy: "wrong",
             });
           }
         }

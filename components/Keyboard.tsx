@@ -1,3 +1,5 @@
+import { Accuracy } from "./Game";
+
 const LAYOUT = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l", "backspace"],
@@ -7,22 +9,22 @@ const LAYOUT = [
 const Key = ({
   keyValue,
   onClick,
-  guessed,
+  accuracy,
 }: {
   keyValue: string;
   onClick: () => void;
-  guessed?: "right" | "wrong" | "almost";
+  accuracy?: Accuracy;
 }) => {
   return (
     <button
       className={`${
         keyValue !== "" && "border bg-white"
       } border-stone-700 w-[42px] h-[42px] uppercase text-stone-500 hover:text-black ${
-        guessed === "right"
+        accuracy === "right"
           ? "bg-green-400"
-          : guessed === "almost"
+          : accuracy === "almost"
           ? "bg-yellow-300"
-          : guessed === "wrong"
+          : accuracy === "wrong"
           ? "bg-stone-200"
           : ""
       }`}
@@ -42,7 +44,7 @@ export const Keyboard = ({
   onKey: (key: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
-  guessedLetters: { guessed: "right" | "wrong" | "almost"; value: string }[];
+  guessedLetters: { accuracy: Accuracy; value: string }[];
 }) => {
   return (
     <div>
@@ -62,8 +64,9 @@ export const Keyboard = ({
                     onKey(key);
                   }
                 }}
-                guessed={
-                  guessedLetters.find((letter) => letter.value === key)?.guessed
+                accuracy={
+                  guessedLetters.find((letter) => letter.value === key)
+                    ?.accuracy
                 }
               />
             ))}

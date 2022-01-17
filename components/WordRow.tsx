@@ -1,7 +1,11 @@
-type Color = "grey" | "green" | "white" | "yellow";
+import { Accuracy } from "./Game";
 
-export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
-  const colors = new Array(guessWord.length).fill("grey");
+export const evaluate = (
+  guessWord: string,
+  solutionWord: string
+): Accuracy[] => {
+  // Index = index of corresponding letter.
+  const accuracies: Accuracy[] = new Array(guessWord.length).fill("wrong");
 
   // Need frequency array to handle letter duplicates in guess/solution word.
   // e.g., with solutionWord "ae" and guessWord "ee", the boxes should be "grey, green".
@@ -17,7 +21,7 @@ export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
   for (let i = 0; i < guessWord.length; i++) {
     if (guessWord[i] === solutionWord[i]) {
       freqs[guessWord[i]]--;
-      colors[i] = "green";
+      accuracies[i] = "right";
     }
   }
 
@@ -29,24 +33,24 @@ export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
       freqs[guessWord[i]] > 0 // And not all occurrences have been marked yellow or green...
     ) {
       freqs[guessWord[i]]--;
-      colors[i] = "yellow";
+      accuracies[i] = "almost";
     }
   }
 
-  return colors;
+  return accuracies;
 };
 
-const Letter = ({ color, value }: { color: Color; value: string }) => (
+const Letter = ({ accuracy, value }: { accuracy: Accuracy; value: string }) => (
   <div
     className={`
       ${
-        color === "white"
+        accuracy === "unknown"
           ? "bg-white"
-          : color === "green"
+          : accuracy === "right"
           ? "bg-green-400"
-          : color === "yellow"
+          : accuracy === "almost"
           ? "bg-yellow-300"
-          : color === "grey"
+          : accuracy === "wrong"
           ? "bg-stone-200"
           : ""
       } 
@@ -73,18 +77,18 @@ export const WordRow = ({
   solutionWord: string;
   isInput?: boolean; // Allows for incomplete word.
 }) => {
-  const colors = !isInput
+  const accuracies = !isInput
     ? evaluate(guessWord, solutionWord)
-    : new Array(guessWord.length).fill("white");
+    : new Array(guessWord.length).fill("unknown");
 
   return (
     <div className="flex gap-1 justify-start">
       {guessWord.split("").map((letter, i) => (
-        <Letter value={letter} color={colors[i]} key={i} />
+        <Letter value={letter} accuracy={accuracies[i]} key={i} />
       ))}
       {/* If incomplete word, fill rest with empty boxes. */}
       {new Array(solutionWord.length - guessWord.length).fill(0).map((_, i) => (
-        <Letter key={i} value="" color="white" />
+        <Letter key={i} value="" accuracy="unknown" />
       ))}
     </div>
   );
