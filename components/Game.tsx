@@ -152,7 +152,7 @@ export const Game = () => {
               {gameState === "lose" && (
                 <p>
                   The word was{" "}
-                  <span className="uppercase font-bold text-stone-700">
+                  <span className="uppercase font-bold text-stone-700 text-base">
                     {solutionWord}
                   </span>
                   .
@@ -161,7 +161,7 @@ export const Game = () => {
             </div>
             <div>
               <button
-                className="bg-stone-900 text-white px-4 py-1 rounded font-medium inline-block"
+                className="bg-stone-700 text-white px-4 py-1 rounded font-medium inline-block hover:bg-stone-500"
                 onClick={() => {
                   setSolutionWord(getRandomCommonWord());
                   setGuesses([]);

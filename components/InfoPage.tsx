@@ -55,7 +55,7 @@ const CopyLink = () => {
           navigator.clipboard.writeText(link);
           setRecentlyCopied(true);
         }}
-        className="hover:text-black p-1"
+        className="hover:text-stone-700 p-1"
         aria-label="Copy link"
       >
         {!recentlyCopied ? <CopySvg /> : <CheckSvg />}
