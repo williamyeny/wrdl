@@ -4,7 +4,7 @@ export const InfoPage = ({ onClose }: { onClose: () => void }) => (
   <div className="fixed w-screen h-screen bg-white top-0 left-0 z-10">
     <div className="max-w-lg mx-auto relative p-8 text-stone-700">
       <button
-        className="absolute text-stone-700 right-0 top-2 p-2"
+        className="absolute text-stone-700 right-0 top-2 p-2 right-2"
         onClick={onClose}
       >
         <svg

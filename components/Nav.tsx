@@ -7,7 +7,7 @@ export const Nav = () => {
     <div className="flex justify-between items-center">
       <h1 className="py-3 px-4">Word Guesser</h1>
       <button
-        className="p-2 text-stone-700"
+        className="p-2 text-stone-700 mr-2"
         aria-label="Info"
         onClick={() => setIsInfoPageOpen(true)}
       >
