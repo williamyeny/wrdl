@@ -22,6 +22,12 @@ export const InfoPage = ({ onClose }: { onClose: () => void }) => (
         <Instructions />
         <h1 className="mt-4">Credits</h1>
         <Credits />
+        <h1 className="mt-4">Source</h1>
+        <p>
+          <a href="https://github.com/williamyeny/word-guesser">
+            Star me on GitHub!
+          </a>
+        </p>
       </div>
     </div>
   </div>
