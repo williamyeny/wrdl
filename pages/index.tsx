@@ -8,8 +8,8 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Word Guesser</title>
-        <meta name="description" content="Word Guesser game" />
+        <title>wrdl</title>
+        <meta name="description" content="Guess the secret word!" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>

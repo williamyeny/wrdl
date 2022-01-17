@@ -95,9 +95,7 @@ export const InfoPage = ({ onClose }: { onClose: () => void }) => (
         <Credits />
         <h1 className="mt-4">Source</h1>
         <p>
-          <a href="https://github.com/williamyeny/word-guesser">
-            Star me on GitHub!
-          </a>
+          <a href="https://github.com/williamyeny/wrdl">Star me on GitHub!</a>
         </p>
       </div>
     </div>
