@@ -5,7 +5,7 @@ export const Nav = () => {
   const [isInfoPageOpen, setIsInfoPageOpen] = useState(false);
   return (
     <div className="flex justify-between items-center">
-      <h1 className="p-2">Word Guesser</h1>
+      <h1 className="py-3 px-4">Word Guesser</h1>
       <button
         className="p-2 text-stone-700"
         aria-label="Info"
