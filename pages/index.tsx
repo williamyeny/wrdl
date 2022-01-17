@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { Game } from "../components/Game";
 import { Nav } from "../components/Nav";
+import { SolutionWordProvider } from "../components/SolutionWordContext";
 
 const Home: NextPage = () => {
   return (
@@ -13,8 +14,10 @@ const Home: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className="mx-auto max-w-lg">
-        <Nav />
-        <Game />
+        <SolutionWordProvider>
+          <Nav />
+          <Game />
+        </SolutionWordProvider>
       </main>
     </div>
   );

@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { allWordsSet, commonWordsArray } from "../dictionary";
 import { Instructions, Credits } from "./TextContent";
 import { Keyboard } from "./Keyboard";
 import { evaluate, WordRow } from "./WordRow";
+import { useRouter } from "next/router";
+import { SolutionWordContext } from "./SolutionWordContext";
 
 export type Accuracy =
   | "right" // Right letter, right position.
@@ -14,7 +16,7 @@ const getRandomCommonWord = () =>
   commonWordsArray[Math.floor(Math.random() * commonWordsArray.length)];
 
 export const Game = () => {
-  const [solutionWord, setSolutionWord] = useState(getRandomCommonWord());
+  const { solutionWord, setSolutionWord } = useContext(SolutionWordContext);
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [guessedLetters, setGuessedLetters] = useState<
@@ -23,6 +25,25 @@ export const Game = () => {
   const [gameState, setGameState] = useState<"playing" | "win" | "lose">(
     "playing"
   );
+
+  // Get word from query params, if exists.
+  const router = useRouter();
+  useEffect(() => {
+    // Init solution word.
+    if (!solutionWord && router.isReady) {
+      const { query } = router;
+      if (typeof query.word === "string") {
+        setSolutionWord(
+          decodeURIComponent(Buffer.from(query.word, "base64").toString())
+        );
+        router.replace("/", undefined, { shallow: true });
+        return;
+      }
+
+      // If word query param not passed in, get random word.
+      setSolutionWord(getRandomCommonWord());
+    }
+  }, [router, setSolutionWord, solutionWord]);
 
   const addLetter = useCallback(
     (letter: string) => {
@@ -122,14 +143,10 @@ export const Game = () => {
     <div>
       <div className="flex flex-col gap-1 mt-1 w-[calc(320px+1rem)] mx-auto">
         {guesses.map((guess, i) => (
-          <WordRow guessWord={guess} key={i} solutionWord={solutionWord} />
+          <WordRow guessWord={guess} key={i} />
         ))}
         {gameState === "playing" ? (
-          <WordRow
-            guessWord={currentGuess}
-            solutionWord={solutionWord}
-            isInput
-          />
+          <WordRow guessWord={currentGuess} isInput />
         ) : (
           <div className="flex mt-2 justify-between">
             <div className="font-medium">

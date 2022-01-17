@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { Accuracy } from "./Game";
+import { SolutionWordContext } from "./SolutionWordContext";
 
 export const evaluate = (
   guessWord: string,
@@ -70,13 +72,12 @@ const Letter = ({ accuracy, value }: { accuracy: Accuracy; value: string }) => (
 
 export const WordRow = ({
   guessWord,
-  solutionWord,
   isInput = false,
 }: {
   guessWord: string;
-  solutionWord: string;
   isInput?: boolean; // Allows for incomplete word.
 }) => {
+  const { solutionWord } = useContext(SolutionWordContext);
   const accuracies = !isInput
     ? evaluate(guessWord, solutionWord)
     : new Array(guessWord.length).fill("unknown");
