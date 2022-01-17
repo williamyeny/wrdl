@@ -33,9 +33,7 @@ export const Game = () => {
     if (!solutionWord && router.isReady) {
       const { query } = router;
       if (typeof query.word === "string") {
-        setSolutionWord(
-          decodeURIComponent(Buffer.from(query.word, "base64").toString())
-        );
+        setSolutionWord(Buffer.from(query.word, "base64").toString());
         router.replace("/", undefined, { shallow: true });
         return;
       }
