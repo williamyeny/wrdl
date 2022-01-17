@@ -1,5 +1,7 @@
 # word-guesser
 
+A clone of [Wordle](https://www.powerlanguage.co.uk/wordle/).
+
 ## Development
 
 ```
