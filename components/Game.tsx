@@ -177,7 +177,7 @@ export const Game = () => {
         )}
       </div>
       {guesses.length === 0 && (
-        <div className="flex flex-col gap-2 w-[calc(320px+1rem)] mt-8 mx-auto">
+        <div className="flex flex-col gap-3 w-[calc(320px+1rem)] mt-8 mx-auto">
           <Instructions />
           <hr />
           <Credits />
