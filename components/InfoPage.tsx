@@ -84,8 +84,10 @@ export const InfoPage = ({ onClose }: { onClose: () => void }) => (
       <div className="flex flex-col gap-2 mt-8">
         <h1>Instructions</h1>
         <Instructions />
-        <h1 className="mt-4">Share word</h1>
-        <p>Send this link to a friend to work on the same word together!</p>
+        <h1 className="mt-4">Share secret word</h1>
+        <p>
+          Send this link to a friend to work on the same secret word together.
+        </p>
         <div>
           <CopyLink />
         </div>
