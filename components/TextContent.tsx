@@ -1,12 +1,20 @@
-export const Instructions = () => (
-  <>
-    <p>Guess a 5 letter word. Press Enter to submit.</p>
-    <p>Green: in the word and in the right spot.</p>
-    <p>Yellow: in the word but in the wrong spot.</p>
-    <p>Grey: not in the word.</p>
-    <p>Be careful, you only have 6 guesses!</p>
-  </>
-);
+import { useIsMobile } from "../hooks";
+
+export const Instructions = () => {
+  const isMobile = useIsMobile();
+
+  return (
+    <>
+      <p>
+        Guess the secret 5 letter word. {!isMobile && "Press Enter to submit. "}
+        But be careful, you only have 6 guesses!
+      </p>
+      <p>Green: in the word and in the right spot.</p>
+      <p>Yellow: in the word but in the wrong spot.</p>
+      <p>Grey: not in the word.</p>
+    </>
+  );
+};
 
 export const Credits = () => (
   <>
