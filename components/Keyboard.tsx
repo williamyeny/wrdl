@@ -37,12 +37,12 @@ export const Keyboard = ({
   onKey,
   onBackspace,
   onSubmit,
-  guessedChars,
+  guessedLetters,
 }: {
   onKey: (key: string) => void;
   onBackspace: () => void;
   onSubmit: () => void;
-  guessedChars: { guessed: "right" | "wrong" | "almost"; character: string }[];
+  guessedLetters: { guessed: "right" | "wrong" | "almost"; value: string }[];
 }) => {
   return (
     <div>
@@ -62,7 +62,9 @@ export const Keyboard = ({
                     onKey(key);
                   }
                 }}
-                guessed={guessedChars.find((c) => c.character === key)?.guessed}
+                guessed={
+                  guessedLetters.find((letter) => letter.value === key)?.guessed
+                }
               />
             ))}
           </div>

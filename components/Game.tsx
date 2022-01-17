@@ -11,17 +11,17 @@ export const Game = () => {
   const [solutionWord, setSolutionWord] = useState(getRandomCommonWord());
   const [guesses, setGuesses] = useState<string[]>([]);
   const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [guessedChars, setGuessedChars] = useState<
-    { guessed: "right" | "almost" | "wrong"; character: string }[]
+  const [guessedLetters, setGuessedLetters] = useState<
+    { guessed: "right" | "almost" | "wrong"; value: string }[]
   >([]);
   const [gameState, setGameState] = useState<"playing" | "win" | "lose">(
     "playing"
   );
 
-  const addCharacter = useCallback(
-    (character: string) => {
+  const addLetter = useCallback(
+    (letter: string) => {
       if (currentGuess.length < 5) {
-        setCurrentGuess(currentGuess + character);
+        setCurrentGuess(currentGuess + letter);
       }
     },
     [currentGuess]
@@ -30,7 +30,7 @@ export const Game = () => {
   const onSubmit = useCallback(() => {
     if (currentGuess.length === 5) {
       if (allWordsSet.has(currentGuess)) {
-        let newGuessedChars = [...guessedChars];
+        let newGuessedLetters = [...guessedLetters];
         const evaluatedColors = evaluate(currentGuess, solutionWord);
 
         // Check win/loss status.
@@ -42,38 +42,39 @@ export const Game = () => {
 
         // Figure out which keyboard colors to update.
         for (let i = 0; i < currentGuess.length; i++) {
-          // Figure out if a character of current guess needs to change color.
+          // Figure out if a letter of current guess needs to change color.
           const shouldTurnKeyGreen = evaluatedColors[i] === "green";
           const shouldTurnKeyYellow =
             evaluatedColors[i] === "yellow" &&
             // Not previously guessed to be green.
-            !guessedChars.some(
-              (c) => c.character === currentGuess[i] && c.guessed === "right"
+            !guessedLetters.some(
+              (letter) =>
+                letter.value === currentGuess[i] && letter.guessed === "right"
             );
           const shouldTurnKeyGrey =
             evaluatedColors[i] === "grey" &&
             // Not previously guessed.
-            !guessedChars.some((c) => c.character === currentGuess[i]);
+            !guessedLetters.some((letter) => letter.value === currentGuess[i]);
 
           if (shouldTurnKeyGreen || shouldTurnKeyYellow) {
-            // Remove existing guessed char, if exists.
-            newGuessedChars = newGuessedChars.filter(
-              (c) => c.character !== currentGuess[i]
+            // Remove existing guessed letter, if exists.
+            newGuessedLetters = newGuessedLetters.filter(
+              (letter) => letter.value !== currentGuess[i]
             );
 
-            newGuessedChars.push({
-              character: currentGuess[i],
+            newGuessedLetters.push({
+              value: currentGuess[i],
               guessed: shouldTurnKeyGreen ? "right" : "almost",
             });
           } else if (shouldTurnKeyGrey) {
-            newGuessedChars.push({
-              character: currentGuess[i],
+            newGuessedLetters.push({
+              value: currentGuess[i],
               guessed: "wrong",
             });
           }
         }
         // Update key colors.
-        setGuessedChars(newGuessedChars);
+        setGuessedLetters(newGuessedLetters);
 
         // Record and reset current guess.
         setGuesses([...guesses, currentGuess]);
@@ -82,7 +83,7 @@ export const Game = () => {
         alert("Not a word!");
       }
     }
-  }, [currentGuess, guessedChars, guesses, solutionWord]);
+  }, [currentGuess, guessedLetters, guesses, solutionWord]);
 
   const onBackspace = useCallback(() => {
     if (currentGuess.length > 0) {
@@ -100,7 +101,7 @@ export const Game = () => {
       }
 
       if (key.length === 1 && key.match(/[a-z]/i)) {
-        addCharacter(key);
+        addLetter(key);
       } else if (key === "Enter") {
         onSubmit();
       } else if (key === "Backspace") {
@@ -110,7 +111,7 @@ export const Game = () => {
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [addCharacter, onBackspace, onSubmit]);
+  }, [addLetter, onBackspace, onSubmit]);
 
   return (
     <div>
@@ -144,7 +145,7 @@ export const Game = () => {
                 onClick={() => {
                   setSolutionWord(getRandomCommonWord());
                   setGuesses([]);
-                  setGuessedChars([]);
+                  setGuessedLetters([]);
                   setGameState("playing");
                 }}
               >
@@ -162,10 +163,10 @@ export const Game = () => {
         </div>
       )}
       <Keyboard
-        onKey={addCharacter}
+        onKey={addLetter}
         onSubmit={onSubmit}
         onBackspace={onBackspace}
-        guessedChars={guessedChars}
+        guessedLetters={guessedLetters}
       />
     </div>
   );

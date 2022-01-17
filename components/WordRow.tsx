@@ -3,17 +3,17 @@ type Color = "grey" | "green" | "white" | "yellow";
 export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
   const colors = new Array(guessWord.length).fill("grey");
 
-  // Need frequency array to handle char duplicates in guess/solution word.
+  // Need frequency array to handle letter duplicates in guess/solution word.
   // e.g., with solutionWord "ae" and guessWord "ee", the boxes should be "grey, green".
   const freqs: { [key: string]: number } = {};
-  for (const char of solutionWord) {
-    if (!(char in freqs)) {
-      freqs[char] = 0;
+  for (const letter of solutionWord) {
+    if (!(letter in freqs)) {
+      freqs[letter] = 0;
     }
-    freqs[char]++;
+    freqs[letter]++;
   }
 
-  // Mark the right chars in right pos.
+  // Mark the right letters in right pos.
   for (let i = 0; i < guessWord.length; i++) {
     if (guessWord[i] === solutionWord[i]) {
       freqs[guessWord[i]]--;
@@ -21,7 +21,7 @@ export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
     }
   }
 
-  // Mark the right chars in wrong pos.
+  // Mark the right letters in wrong pos.
   for (let i = 0; i < guessWord.length; i++) {
     if (
       guessWord[i] !== solutionWord[i] && // Not in right pos...
@@ -36,7 +36,7 @@ export const evaluate = (guessWord: string, solutionWord: string): Color[] => {
   return colors;
 };
 
-const CharBox = ({ color, character }: { color: Color; character: string }) => (
+const Letter = ({ color, value }: { color: Color; value: string }) => (
   <div
     className={`
       ${
@@ -60,7 +60,7 @@ const CharBox = ({ color, character }: { color: Color; character: string }) => (
       uppercase
     `}
   >
-    <span className="text-xl">{character}</span>
+    <span className="text-xl">{value}</span>
   </div>
 );
 
@@ -79,12 +79,12 @@ export const WordRow = ({
 
   return (
     <div className="flex gap-1 justify-start">
-      {guessWord.split("").map((char, i) => (
-        <CharBox character={char} color={colors[i]} key={i} />
+      {guessWord.split("").map((letter, i) => (
+        <Letter value={letter} color={colors[i]} key={i} />
       ))}
       {/* If incomplete word, fill rest with empty boxes. */}
       {new Array(solutionWord.length - guessWord.length).fill(0).map((_, i) => (
-        <CharBox key={i} character="" color="white" />
+        <Letter key={i} value="" color="white" />
       ))}
     </div>
   );
