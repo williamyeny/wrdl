@@ -1,0 +1,9 @@
+[build]
+command = "yarn run build"
+publish = "out"
+
+[build.environment]
+NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+[dev]
+framework = "#static"
