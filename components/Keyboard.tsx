@@ -47,32 +47,29 @@ export const Keyboard = ({
   guessedLetters: { accuracy: Accuracy; value: string }[];
 }) => {
   return (
-    <div>
-      <div className="fixed bottom-0 w-[min(100vw,32rem)] flex flex-col gap-1 p-1">
-        {LAYOUT.map((keys, i) => (
-          <div className="flex justify-center gap-1" key={i}>
-            {keys.map((key, j) => (
-              <Key
-                keyValue={key}
-                key={j}
-                onClick={() => {
-                  if (key === "backspace") {
-                    onBackspace();
-                  } else if (key === "submit") {
-                    onSubmit();
-                  } else {
-                    onKey(key);
-                  }
-                }}
-                accuracy={
-                  guessedLetters.find((letter) => letter.value === key)
-                    ?.accuracy
+    <div className="absolute bottom-0 w-[min(100vw,32rem)] flex flex-col gap-1 p-1">
+      {LAYOUT.map((keys, i) => (
+        <div className="flex justify-center gap-1" key={i}>
+          {keys.map((key, j) => (
+            <Key
+              keyValue={key}
+              key={j}
+              onClick={() => {
+                if (key === "backspace") {
+                  onBackspace();
+                } else if (key === "submit") {
+                  onSubmit();
+                } else {
+                  onKey(key);
                 }
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+              }}
+              accuracy={
+                guessedLetters.find((letter) => letter.value === key)?.accuracy
+              }
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
