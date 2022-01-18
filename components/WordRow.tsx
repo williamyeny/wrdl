@@ -9,7 +9,7 @@ export const evaluate = (
   // Index = index of corresponding letter.
   const accuracies: Accuracy[] = new Array(guessWord.length).fill("wrong");
 
-  // Need frequency array to handle letter duplicates in guess/solution word.
+  // Need frequency map to handle letter duplicates in guess/solution word.
   // e.g., with solutionWord "ae" and guessWord "ee", the boxes should be "grey, green".
   const freqs: { [key: string]: number } = {};
   for (const letter of solutionWord) {
