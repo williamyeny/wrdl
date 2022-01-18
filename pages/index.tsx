@@ -13,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <main className="mx-auto max-w-lg relative h-screen max-h-[720px]">
+      <main className="mx-auto max-w-lg relative h-[calc(100vh-env(safe-area-inset-bottom))] max-h-[720px]">
         <SolutionWordProvider>
           <Nav />
           <Game />
