@@ -1,3 +1,4 @@
+import { useIsMobile } from "../hooks";
 import { Accuracy } from "./Game";
 
 const LAYOUT = [
@@ -46,8 +47,12 @@ export const Keyboard = ({
   onSubmit: () => void;
   guessedLetters: { accuracy: Accuracy; value: string }[];
 }) => {
+  const positionStyle = useIsMobile() ? "bottom-1" : "top-[540px]";
+
   return (
-    <div className="absolute bottom-0 w-[min(100vw,32rem)] flex flex-col gap-1 p-1">
+    <div
+      className={`fixed ${positionStyle} w-[min(100vw,32rem)] flex flex-col gap-1 p-1`}
+    >
       {LAYOUT.map((keys, i) => (
         <div className="flex justify-center gap-1" key={i}>
           {keys.map((key, j) => (
