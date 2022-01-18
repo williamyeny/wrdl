@@ -55,7 +55,6 @@ export const Game = () => {
   const onSubmit = useCallback(() => {
     if (currentGuess.length === 5) {
       if (allWordsSet.has(currentGuess)) {
-        let newGuessedLetters = [...guessedLetters];
         const accuracies = evaluate(currentGuess, solutionWord);
 
         // Check win/loss status.
@@ -66,6 +65,7 @@ export const Game = () => {
         }
 
         // Figure out which keyboard keys need to update their colors.
+        let newGuessedLetters = [...guessedLetters];
         for (let i = 0; i < currentGuess.length; i++) {
           const isKeyRight = accuracies[i] === "right";
           const isKeyAlmost =

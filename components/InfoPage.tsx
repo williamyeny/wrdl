@@ -52,7 +52,7 @@ export const InfoPage = ({ onClose }: { onClose: () => void }) => (
         <Instructions />
         <h1 className="mt-4">Share secret word</h1>
         <p>
-          Send this link to a friend to work on the same secret word together.
+          Send this link to a friend and they will have the same secret word.
         </p>
         <div>
           <CopyLink />
