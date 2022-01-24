@@ -3,8 +3,14 @@ import Head from "next/head";
 import { Game } from "../components/Game";
 import { Nav } from "../components/Nav";
 import { SolutionWordProvider } from "../components/SolutionWordContext";
+import Cohere from "cohere-js";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    Cohere.init("1MH_3R0kE5_sDbYkZdQULHCA");
+  }, []);
+
   return (
     <div>
       <Head>

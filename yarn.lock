@@ -509,6 +509,11 @@ chokidar@^3.5.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
+cohere-js@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/cohere-js/-/cohere-js-1.0.19.tgz#c9951e51b6fdf48d3b2457838983109d651a9d16"
+  integrity sha512-2XVX2LUKHjbJ4GCsnizXnAVHZfq9RM1RmHl8zE4G2ORdXmDpzSx5i0UIj/0GZ3AwjKIlYsrGA4kdCGT+WapjPQ==
+
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
