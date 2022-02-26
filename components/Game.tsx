@@ -2,9 +2,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { allWordsSet, commonWordsArray } from "../dictionary";
 import { Instructions, Credits } from "./TextContent";
 import { Keyboard } from "./Keyboard";
-import { evaluate, WordRow } from "./WordRow";
+import { WordRow } from "./WordRow";
 import { useRouter } from "next/router";
 import { SolutionWordContext } from "./SolutionWordContext";
+import { evaluate } from "../evaluate";
 
 export type Accuracy =
   | "right" // Right letter, right position.
