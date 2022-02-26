@@ -4,7 +4,7 @@ export const evaluate = (
   guessWord: string,
   solutionWord: string
 ): Accuracy[] => {
-  // Index = index of corresponding letter.
+  // accuracies[i] corresponds to letter i
   const accuracies: Accuracy[] = new Array(guessWord.length).fill("wrong");
 
   // Need frequency map to handle letter duplicates in guess/solution word.
